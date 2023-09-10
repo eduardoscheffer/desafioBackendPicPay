@@ -10,6 +10,9 @@ Esta API foi desenvolvida em Java, utilizando as seguintes tecnologias:
 - **Banco de Dados em Memória:** H2
 - **Framework Web:** Spring Web
 
+## Modelo
+![Modelagem URL](https://github.com/eduardoscheffer/desafioBackendPicPay/blob/master/src/main/java/eduardo/picPaySimplificado/modelagem-desafio-picpay.png?raw=true)
+
 ## Objetivo: PicPay Simplificado 💲
 
 Temos 2 tipos de usuários, os comuns e lojistas, ambos têm carteira com dinheiro e realizam transferências entre eles. Vamos nos atentar somente ao fluxo de transferência entre dois usuários.
