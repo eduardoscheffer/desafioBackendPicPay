@@ -1,4 +1,4 @@
-# Desafio Back-end PicPay 🚀
+# Desafio Backend PicPay 🚀
 
 ## Tecnologias Utilizadas 🛠️
 
