@@ -9,6 +9,7 @@ Esta API foi desenvolvida em Java, utilizando as seguintes tecnologias:
 - **Persistência de Dados:** JPA
 - **Banco de Dados em Memória:** H2
 - **Framework Web:** Spring Web
+- **Segurança:** Spring Security
 
 ## Modelo
 ![Modelagem URL](https://github.com/eduardoscheffer/desafioBackendPicPay/blob/master/src/main/java/eduardo/picPaySimplificado/modelagem-desafio-picpay.png?raw=true)
