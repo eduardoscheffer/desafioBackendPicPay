@@ -4,7 +4,10 @@ import eduardo.picPaySimplificado.domain.user.User;
 import eduardo.picPaySimplificado.domain.user.UserDTO;
 import eduardo.picPaySimplificado.domain.user.UserType;
 import eduardo.picPaySimplificado.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +17,17 @@ import java.util.List;
 @Service
 public class UserService {
 
+    public UserService() {
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
     @Autowired
     private UserRepository repository;
 
+    private final PasswordEncoder passwordEncoder;
+
     public User createUser(UserDTO userDTO) {
         User newUser = new User(userDTO);
+        newUser.setPassword(passwordEncoder.encode(userDTO.password())); // Criptografia da senha usando Spring Security
         this.saveUser(newUser);
         return newUser;
     }
@@ -48,7 +57,7 @@ public class UserService {
             existingUser.setName(userDto.name());
             existingUser.setDocument(userDto.document());
             existingUser.setEmail(userDto.email());
-            existingUser.setPassword(userDto.password());
+            existingUser.setPassword(passwordEncoder.encode(userDto.password())); // criptografa ao salvar no banco
             existingUser.setUserType(userDto.userType());
             return repository.save(existingUser);
         }).orElse(null);
@@ -61,5 +70,15 @@ public class UserService {
             return true;
         }
         else return false;
+    }
+
+    // Metodo que bate no banco de dados e valida se a senha é a mesma do userDTO (userRequest)
+    @Transactional
+    public Boolean validarSenha(UserDTO userRequest) {
+        User user = repository.findByEmail(userRequest.email());
+        if (user != null && user.getPassword() != null) {
+            return passwordEncoder.matches(userRequest.password(), user.getPassword());
+        }
+        throw new EntityNotFoundException();
     }
 }

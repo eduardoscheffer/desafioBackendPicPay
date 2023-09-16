@@ -26,6 +26,14 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    // endpoint com login
+    @PostMapping("login")
+    public ResponseEntity validarSenha(@RequestBody UserDTO userDTO) {
+        Boolean valid = service.validarSenha(userDTO);
+        if (!valid) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        else return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     // list of users
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
