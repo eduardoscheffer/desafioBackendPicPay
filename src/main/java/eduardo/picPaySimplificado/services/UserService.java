@@ -6,6 +6,7 @@ import eduardo.picPaySimplificado.domain.user.UserType;
 import eduardo.picPaySimplificado.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -39,5 +40,26 @@ public class UserService {
         if (payer.getBalance().compareTo(amount) < 0) throw new Exception("Saldo insuficiente");
 
         return true;
+    }
+
+    @Transactional
+    public User upDateUserById(Long id, UserDTO userDto) {
+        return repository.findById(id).map((existingUser) -> {
+            existingUser.setName(userDto.name());
+            existingUser.setDocument(userDto.document());
+            existingUser.setEmail(userDto.email());
+            existingUser.setPassword(userDto.password());
+            existingUser.setUserType(userDto.userType());
+            return repository.save(existingUser);
+        }).orElse(null);
+    }
+
+    @Transactional
+    public boolean deleteUserById(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        else return false;
     }
 }

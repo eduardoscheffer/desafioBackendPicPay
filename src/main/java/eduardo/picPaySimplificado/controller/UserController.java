@@ -36,5 +36,21 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    // update user by Id:
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUserById(@PathVariable Long id, @RequestBody UserDTO userDto) {
+        User user = service.upDateUserById(id, userDto);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    // delete User by ID:
+    @SuppressWarnings("rawtypes")
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletUserById(@PathVariable Long id) {
+        if (service.deleteUserById(id))
+            return ResponseEntity.noContent().build();
+        else throw new EntityNotFoundException();
+    }
+
 
 }

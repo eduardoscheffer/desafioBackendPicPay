@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -30,8 +31,10 @@ public class TransactionService {
     public Transaction createTransaction(TransactionDTO transactionDTO) throws Exception {
 
         // validações:
+        System.out.println("antes de entrar no banco");
         var payer = userService.findUserById(transactionDTO.payerId());
         var payee = userService.findUserById(transactionDTO.payeeId());
+        System.out.println("apos consultar o db");
 
         userService.validateUser(payer, transactionDTO.amount());
 

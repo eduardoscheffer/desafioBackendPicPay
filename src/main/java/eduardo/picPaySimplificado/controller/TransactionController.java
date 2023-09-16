@@ -20,7 +20,10 @@ public class TransactionController {
     @PostMapping
     // create Transaction:
     public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDTO transactionDTO) throws Exception {
+        System.out.println(transactionDTO);
         var newTransaction = transactionService.createTransaction(transactionDTO);
+        System.out.println("NEW TRANSACTION: " + newTransaction);
+        System.out.println("finished");
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
     }
 
